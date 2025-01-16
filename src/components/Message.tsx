@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Bot, User } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface MessageProps {
   content: string;
@@ -34,7 +36,25 @@ export const Message = ({ content, isUserMessage }: MessageProps) => {
               </span>
             </div>
 
-            <p className="text-sm font-normal py-2.5 text-gray-800 ">{content}</p>
+            <div className="text-sm font-normal py-2.5 text-gray-800 ">
+              {/* Render content as Markdown using ReactMarkdown */}
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  ul: ({ children }) => (
+                    <ul className="list-disc pl-5 space-y-1">{children}</ul>
+                  ),
+                  ol: ({ children }) => (
+                    <ol className="list-decimal pl-5 space-y-1">{children}</ol>
+                  ),
+                  li: ({ children }) => (
+                    <li className="py-1 text-gray-800">{children}</li>
+                  ),
+                }}
+              >
+                {content}
+              </ReactMarkdown>
+            </div>
           </div>
         </div>
       </div>
